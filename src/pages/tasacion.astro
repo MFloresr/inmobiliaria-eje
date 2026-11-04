@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import Formulario from '../components/Formulario.astro';
+import Preguntas from '../components/Preguntas.astro';
+import { getZonas } from '../lib/contenido';
+
+const zonas = await getZonas();
+const datos = zonas.map((z) => ({ id: z.id, nombre: z.data.nombre, venta: z.data.precioM2Venta, alquiler: z.data.precioM2Alquiler }));
+---
+
+<Base titulo="¿Cuánto vale mi vivienda? Estimación y tasación gratuita" descripcion="Una estimación orientativa al momento y una tasación profesional gratuita sin compromiso.">
+  <div class="contenedor cabecera-pagina">
+    <h1>Cuánto vale</h1>
+    <p>Una estimación al momento con los precios medios de tu zona. Para un precio real, te hacemos una tasación gratuita.</p>
+  </div>
+
+  <section class="seccion">
+    <div class="contenedor" style="padding-block:32px 64px">
+      <form class="calc" id="tas" data-zonas={JSON.stringify(datos)} aria-label="Estimación del valor">
+        <div class="calc__campos">
+          <div><label for="t-zona">Zona</label><select id="t-zona">{zonas.map((z) => <option value={z.id}>{z.data.nombre}</option>)}</select></div>
+          <div><label for="t-op">¿Qué quieres saber?</label><select id="t-op"><option value="venta">Precio de venta</option><option value="alquiler">Alquiler mensual</option></select></div>
+          <div><label for="t-m2">Superficie <output id="o-m2" for="t-m2"></output></label><input id="t-m2" type="range" min="25" max="300" step="1" value="80" /></div>
+          <div><label for="t-estado">Estado</label><select id="t-estado"><option value="0.86">Para reformar</option><option value="1" selected>Buen estado</option><option value="1.12">Reformada o de obra nueva</option></select></div>
+          <fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:6px">Extras</legend>
+            <label class="casilla" style="display:flex;gap:12px;font-weight:500;margin-bottom:8px"><input type="checkbox" value="0.05" name="x" style="width:24px;height:24px;accent-color:var(--azul)" /><span>Ascensor</span></label>
+            <label class="casilla" style="display:flex;gap:12px;font-weight:500;margin-bottom:8px"><input type="checkbox" value="0.06" name="x" style="width:24px;height:24px;accent-color:var(--azul)" /><span>Terraza o balcón</span></label>
+            <label class="casilla" style="display:flex;gap:12px;font-weight:500"><input type="checkbox" value="0.07" name="x" style="width:24px;height:24px;accent-color:var(--azul)" /><span>Parking</span></label>
+          </fieldset>
+        </div>
+        <div class="calc__salida" aria-live="polite">
+          <p style="margin:0;font-weight:700" id="s-etq">Estimación orientativa</p>
+          <p class="gran num" id="s-valor">0 €</p>
+          <p id="s-rango" style="margin:0;font-weight:700"></p>
+          <dl>
+            <div><dt>Precio medio de la zona</dt><dd id="s-medio"></dd></div>
+            <div><dt>Tu estimación por m²</dt><dd id="s-m2"></dd></div>
+          </dl>
+          <p style="font-size:0.88rem;color:#e1e5ff;margin:12px 0 0">Esto no es una tasación. El valor real depende de la finca, la orientación, la altura y el mercado de ese mes.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="seccion seccion--gris">
+    <div class="contenedor fila">
+      <div class="fila__titulo"><h2>Tasación gratuita</h2><p>Un agente visita la vivienda y te da un precio por escrito.</p></div>
+      <Formulario tipo="tasacion" boton="Pedir tasación gratuita" mensajeOk="Solicitud recibida. Te llamamos para fijar la visita.">
+        <div><label for="a-nombre">Nombre <span class="marca" aria-hidden="true">*</span></label><input id="a-nombre" name="nombre" type="text" autocomplete="name" required /><p class="error" data-error-para="nombre"></p></div>
+        <div><label for="a-tel">Teléfono <span class="marca" aria-hidden="true">*</span></label><input id="a-tel" name="telefono" type="tel" autocomplete="tel" required pattern="[0-9 +]{9,}" title="Escribe un teléfono de al menos 9 cifras" /><p class="error" data-error-para="telefono"></p></div>
+        <div class="ancho-total"><label for="a-dir">Dirección de la vivienda <span class="marca" aria-hidden="true">*</span></label><input id="a-dir" name="direccion" type="text" autocomplete="street-address" required /><p class="error" data-error-para="direccion"></p></div>
+      </Formulario>
+    </div>
+  </section>
+
+  <section class="seccion"><div class="contenedor fila"><div class="fila__titulo"><h2>Sobre vender</h2></div><Preguntas tema="vender" titulo="Dudas al vender" /></div></section>
+</Base>
+
+<script>
+  const f = document.getElementById('tas') as HTMLFormElement;
+  const Z: { id: string; nombre: string; venta: number; alquiler: number }[] = JSON.parse(f.dataset.zonas || '[]');
+  const $ = (id: string) => document.getElementById(id) as HTMLInputElement;
+  const eur = (n: number) => `${new Intl.NumberFormat('es-ES', { useGrouping: 'always' }).format(Math.round(n / 100) * 100)} €`;
+  const eur1 = (n: number) => `${new Intl.NumberFormat('es-ES', { useGrouping: 'always' }).format(Math.round(n))} €`;
+  function calc() {
+    const z = Z.find((x) => x.id === $('t-zona').value)!;
+    const op = $('t-op').value as 'venta' | 'alquiler';
+    const m2 = Number($('t-m2').value);
+    const base = z[op];
+    const extras = [...f.querySelectorAll<HTMLInputElement>('input[name="x"]:checked')].reduce((s, i) => s + Number(i.value), 0);
+    const por = base * Number($('t-estado').value) * (1 + extras);
+    const valor = por * m2;
+    $('o-m2').textContent = `${m2} m²`;
+    $('s-etq').textContent = op === 'venta' ? 'Valor de venta estimado' : 'Alquiler mensual estimado';
+    $('s-valor').innerHTML = `${new Intl.NumberFormat('es-ES', { useGrouping: 'always' }).format(Math.round(valor / (op === 'venta' ? 1000 : 10)) * (op === 'venta' ? 1000 : 10))} <small>€${op === 'alquiler' ? ' al mes' : ''}</small>`;
+    const paso = op === 'venta' ? 1000 : 10;
+    $('s-rango').textContent = `Entre ${eur1(Math.round(valor * 0.92 / paso) * paso)} y ${eur1(Math.round(valor * 1.08 / paso) * paso)}`;
+    $('s-medio').textContent = `${eur1(base)} /m²${op === 'alquiler' ? ' al mes' : ''}`;
+    $('s-m2').textContent = `${eur1(por)} /m²${op === 'alquiler' ? ' al mes' : ''}`;
+  }
+  f.addEventListener('input', calc);
+  f.addEventListener('change', calc);
+  calc();
+</script>

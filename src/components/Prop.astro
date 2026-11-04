@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import { euros, NOMBRE_TIPO } from '../lib/util';
+import type { CollectionEntry } from 'astro:content';
+interface Props { p: CollectionEntry<'propiedades'>; zona: string }
+const { p, zona } = Astro.props;
+const d = p.data;
+---
+
+<article class="prop" data-id={p.id}>
+  {d.destacada && <span class="etiqueta-dest">Destacada</span>}
+  <Image src={d.fotos[0].src} alt={d.fotos[0].alt} widths={[400, 700]} sizes="(min-width: 1000px) 30vw, 100vw" />
+  <button class="fav" type="button" data-fav={p.id} aria-pressed="false" aria-label={`Guardar ${d.titulo} en favoritos`}><span aria-hidden="true">♥</span></button>
+  <div class="prop__cuerpo">
+    <p class="prop__tipo"><span>{NOMBRE_TIPO[d.tipo]} en {d.operacion} · {zona}</span><span class="energia" title={`Certificado energético ${d.energia}`}>{d.energia}<span class="solo-lectores"> certificado energético</span></span></p>
+    <h3><a href={`/propiedad/${p.id}/`}>{d.titulo}</a></h3>
+    <p class="prop__precio num">{euros(d.precio)}{d.operacion === 'alquiler' && <small> /mes</small>}</p>
+    <div class="prop__datos">
+      <div><b>{d.metros}</b><span>m²</span></div>
+      <div><b>{d.habitaciones}</b><span>{d.habitaciones === 1 ? 'habitación' : 'habitaciones'}</span></div>
+      <div><b>{d.banos}</b><span>{d.banos === 1 ? 'baño' : 'baños'}</span></div>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Formulario from '../../components/Formulario.astro';
+import { getPropiedades, getZonas } from '../../lib/contenido';
+import { ENERGIA } from '../../content.config';
+import { euros, NOMBRE_TIPO } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const p = await getPropiedades();
+  return p.map((x) => ({ params: { slug: x.id }, props: { x } }));
+}
+const { x } = Astro.props;
+const d = x.data;
+const zona = (await getZonas()).find((z) => z.id === d.zona);
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Residence',
+  name: d.titulo,
+  description: d.resumen,
+  floorSize: { '@type': 'QuantitativeValue', value: d.metros, unitCode: 'MTK' },
+  numberOfRooms: d.habitaciones,
+};
+const precioM2 = Math.round(d.precio / d.metros);
+---
+
+<Base titulo={d.titulo} descripcion={d.resumen} jsonld={jsonld}>
+  <div class="contenedor">
+    <nav class="migas" aria-label="Migas de pan"><a href="/">Inicio</a> / <a href={`/buscar/?op=${d.operacion}`}>Buscar</a> / <span aria-current="page">{d.titulo}</span></nav>
+    <header class="ficha-cab">
+      <div>
+        <p style="margin:0 0 8px;font-weight:700">{NOMBRE_TIPO[d.tipo]} en {d.operacion} · {zona?.data.nombre} · {d.calle} · Ref. {d.referencia}</p>
+        <h1>{d.titulo}</h1>
+      </div>
+      <div class="ficha-precio num">{euros(d.precio)}{d.operacion === 'alquiler' && <small> /mes</small>}</div>
+    </header>
+  </div>
+  <div class="contenedor" style="padding-top:0">
+    <div class="galeria" style="margin-top:28px">
+      {d.fotos.map((f, i) => (
+        <div class={i === 0 ? 'grande' : 'peq'}><Image src={f.src} alt={f.alt} widths={i === 0 ? [600, 1000, 1400] : [400, 700]} sizes={i === 0 ? '(min-width: 800px) 66vw, 100vw' : '(min-width: 800px) 33vw, 100vw'} loading={i === 0 ? 'eager' : 'lazy'} /></div>
+      ))}
+    </div>
+    <div class="especs">
+      <div class="espec"><b>{d.metros}</b><span>m² construidos</span></div>
+      <div class="espec"><b>{d.habitaciones}</b><span>{d.habitaciones === 1 ? 'habitación' : 'habitaciones'}</span></div>
+      <div class="espec"><b>{d.banos}</b><span>{d.banos === 1 ? 'baño' : 'baños'}</span></div>
+      <div class="espec"><b>{d.ano}</b><span>año de construcción</span></div>
+      <div class="espec"><b>{euros(d.operacion === 'venta' ? precioM2 : Math.round(d.precio / d.metros))}</b><span>{d.operacion === 'venta' ? 'por m²' : 'por m² al mes'}</span></div>
+    </div>
+
+    <div class="ficha-cuerpo">
+      <div>
+        <p style="font:800 1.6rem/1.15 var(--f-titulo);letter-spacing:-0.03em;max-width:30ch">{d.resumen}</p>
+        {d.descripcion.map((t) => <p class="texto">{t}</p>)}
+        <h2 style="font-size:1.8rem;margin-top:1.4em">Características</h2>
+        <ul class="lista">{d.extras.map((e) => <li>{e}</li>)}<li>Planta: {d.planta}</li></ul>
+        <h2 style="font-size:1.8rem;margin-top:1.4em">Certificado energético</h2>
+        <div class="energia-escala" role="img" aria-label={`Certificado energético ${d.energia}, en una escala de A a G`}>{ENERGIA.map((l) => <span class={l === d.energia ? 'on' : ''}>{l}</span>)}</div>
+        <p class="letra-pequena">La etiqueta energética es obligatoria en cualquier anuncio de venta o alquiler.</p>
+        {d.operacion === 'venta' && <p><a class="btn btn--linea" href={`/hipoteca/?precio=${d.precio}`}>Calcular la hipoteca de esta vivienda</a></p>}
+      </div>
+      <aside>
+        <h2 style="font-size:2rem">Pedir visita</h2>
+        <button class="fav" type="button" data-fav={x.id} aria-pressed="false" style="position:static;width:auto;padding:0 14px;display:inline-flex;gap:8px;align-items:center;margin-bottom:16px;font:700 1rem var(--f-texto)" aria-label={`Guardar en favoritos: ${d.titulo}`}><span aria-hidden="true">♥</span> Guardar en favoritos</button>
+        <Formulario tipo="visita" boton="Pedir visita" mensajeOk="Solicitud recibida. Te llamamos para fijar la visita.">
+          <input type="hidden" name="referencia" value={d.referencia} />
+          <div class="ancho-total"><label for="v-nombre">Nombre <span class="marca" aria-hidden="true">*</span></label><input id="v-nombre" name="nombre" type="text" autocomplete="name" required /><p class="error" data-error-para="nombre"></p></div>
+          <div class="ancho-total"><label for="v-tel">Teléfono <span class="marca" aria-hidden="true">*</span></label><input id="v-tel" name="telefono" type="tel" autocomplete="tel" required pattern="[0-9 +]{9,}" title="Escribe un teléfono de al menos 9 cifras" /><p class="error" data-error-para="telefono"></p></div>
+          <div class="ancho-total"><label for="v-msg">Mensaje (opcional)</label><textarea id="v-msg" name="mensaje" style="min-height:80px" maxlength="300"></textarea></div>
+        </Formulario>
+      </aside>
+    </div>
+  </div>
+</Base>

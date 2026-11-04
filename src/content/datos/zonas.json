@@ -1,0 +1,47 @@
+[
+ {
+  "id": "eixample",
+  "nombre": "Eixample",
+  "resumen": "Calles rectas, fincas señoriales y todo a mano. Es el barrio más caro y el más cómodo.",
+  "precioM2Venta": 5200,
+  "precioM2Alquiler": 18,
+  "transporte": "Metro L1, L2, L3, L4 y L5",
+  "paraQuien": "Quien quiere vivir en el centro sin salir de casa en coche."
+ },
+ {
+  "id": "gracia",
+  "nombre": "Gràcia",
+  "resumen": "Plazas, comercio de barrio y vida de pueblo dentro de la ciudad.",
+  "precioM2Venta": 4800,
+  "precioM2Alquiler": 17,
+  "transporte": "Metro L3 y FGC",
+  "paraQuien": "Quien busca ambiente y calles caminables."
+ },
+ {
+  "id": "sants",
+  "nombre": "Sants",
+  "resumen": "Barrio de trabajo y de asociaciones, con una estación central y precios más ajustados.",
+  "precioM2Venta": 3900,
+  "precioM2Alquiler": 15,
+  "transporte": "Metro L1, L3 y L5, tren y AVE",
+  "paraQuien": "Quien se mueve mucho en tren o necesita ahorrar."
+ },
+ {
+  "id": "poblenou",
+  "nombre": "Poblenou",
+  "resumen": "Antiguas fábricas convertidas en estudios, manzanas con patio y la playa al final de la calle.",
+  "precioM2Venta": 5000,
+  "precioM2Alquiler": 19,
+  "transporte": "Metro L4 y tranvía",
+  "paraQuien": "Quien trabaja en tecnología o diseño y quiere mar."
+ },
+ {
+  "id": "valles",
+  "nombre": "Vallès",
+  "resumen": "Casas con jardín y calles tranquilas a veinte minutos de Barcelona en tren.",
+  "precioM2Venta": 2800,
+  "precioM2Alquiler": 11,
+  "transporte": "Rodalies R4 y FGC",
+  "paraQuien": "Familias que quieren espacio y verde."
+ }
+]

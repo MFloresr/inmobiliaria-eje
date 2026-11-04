@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Preguntas from '../components/Preguntas.astro';
+import Prop from '../components/Prop.astro';
+import { getPropiedades, getZonas, getOpiniones, getGuias } from '../lib/contenido';
+import { sitio } from '../lib/sitio';
+import { euros, num } from '../lib/util';
+
+const props = await getPropiedades();
+const zonas = await getZonas();
+const nombreZona = (id: string) => zonas.find((z) => z.id === id)?.data.nombre ?? id;
+const destacadas = props.filter((p) => p.data.destacada).slice(0, 3);
+const opiniones = await getOpiniones();
+const guias = (await getGuias()).slice(0, 3);
+const venta = props.filter((p) => p.data.operacion === 'venta').length;
+const alquiler = props.length - venta;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: sitio.nombre,
+  description: sitio.descripcion,
+  telephone: sitio.telefono,
+  email: sitio.email,
+  address: { '@type': 'PostalAddress', streetAddress: sitio.direccion.calle, postalCode: sitio.direccion.cp, addressLocality: sitio.direccion.ciudad, addressCountry: 'ES' },
+};
+---
+
+<Base titulo="Inmobiliaria en Barcelona y el Vallès: pisos, áticos y casas" jsonld={jsonld}>
+  <section class="seccion portada">
+    <div class="contenedor">
+      <h1>Dónde<br />vivir.</h1>
+      <div class="portada__lema">
+        <p>Pisos, áticos y casas en Barcelona y el Vallès, con el precio real y sin letra pequeña.</p>
+      </div>
+      <form class="buscador" action="/buscar/" method="get" aria-label="Buscar vivienda">
+        <label>Quiero
+          <select name="op"><option value="venta">Comprar</option><option value="alquiler">Alquilar</option></select>
+        </label>
+        <label>Tipo
+          <select name="tipo"><option value="">Cualquiera</option><option value="piso">Piso</option><option value="atico">Ático</option><option value="casa">Casa</option><option value="estudio">Estudio</option></select>
+        </label>
+        <label>Zona
+          <select name="zona"><option value="">Todas</option>{zonas.map((z) => <option value={z.id}>{z.data.nombre}</option>)}</select>
+        </label>
+        <label>Habitaciones
+          <select name="hab"><option value="">Todas</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option><option value="4">4 o más</option></select>
+        </label>
+        <button class="btn" type="submit">Buscar</button>
+      </form>
+    </div>
+    <div class="contenedor" style="margin-top:36px">
+      <div class="cifras">
+        <div class="cifra"><b class="num">{venta}</b><span>viviendas en venta</span></div>
+        <div class="cifra"><b class="num">{alquiler}</b><span>en alquiler</span></div>
+        <div class="cifra"><b class="num">{zonas.length}</b><span>zonas</span></div>
+        <div class="cifra"><b class="num">24 h</b><span>en responderte</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor fila">
+      <div class="fila__titulo"><h2>Destacadas</h2><p>Las que más nos gustan esta semana.</p></div>
+      <div class="rejilla" style="margin-left:-0px">
+        {destacadas.map((p) => <Prop p={p} zona={nombreZona(p.data.zona)} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion--azul">
+    <div class="contenedor fila">
+      <div class="fila__titulo"><h2>Tres cosas que haces antes de decidir</h2></div>
+      <div style="display:grid;gap:0;border-top:2px solid #fff">
+        <a href="/hipoteca/" style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:22px 0;border-bottom:2px solid #fff;text-decoration:none;align-items:center"><span><b style="font:800 clamp(1.8rem,4vw,3rem)/1 var(--f-titulo);letter-spacing:-0.05em;display:block">Calcular la hipoteca</b>Cuánta cuota y cuántos gastos, con tus números.</span><span aria-hidden="true" style="font-size:2rem">→</span></a>
+        <a href="/tasacion/" style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:22px 0;border-bottom:2px solid #fff;text-decoration:none;align-items:center"><span><b style="font:800 clamp(1.8rem,4vw,3rem)/1 var(--f-titulo);letter-spacing:-0.05em;display:block">Saber cuánto vale tu casa</b>Una estimación al momento y una tasación profesional gratuita.</span><span aria-hidden="true" style="font-size:2rem">→</span></a>
+        <a href="/zonas/" style="display:grid;grid-template-columns:1fr auto;gap:12px;padding:22px 0;border-bottom:2px solid #fff;text-decoration:none;align-items:center"><span><b style="font:800 clamp(1.8rem,4vw,3rem)/1 var(--f-titulo);letter-spacing:-0.05em;display:block">Comparar zonas</b>Precio por metro cuadrado, transporte y para quién es cada barrio.</span><span aria-hidden="true" style="font-size:2rem">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor fila">
+      <div class="fila__titulo"><h2>Zonas</h2><p>Precio medio de venta por metro cuadrado.</p></div>
+      <div class="zonas">
+        {zonas.map((z) => (
+          <div class="zona">
+            <h3>{z.data.nombre}</h3>
+            <p>{z.data.resumen}</p>
+            <p class="precio num">{num(z.data.precioM2Venta)} €<small>€/m² en venta</small></p>
+            <p class="precio num">{z.data.precioM2Alquiler} €<small>€/m² al mes en alquiler</small></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion--azul">
+    <div class="contenedor fila">
+      <div class="fila__titulo"><h2>Lo que cuentan</h2></div>
+      <div class="opiniones">
+        {opiniones.map((o) => <figure class="opinion"><blockquote>«{o.data.texto}»</blockquote><figcaption><strong>{o.data.nombre}</strong> · {o.data.operacion}</figcaption></figure>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor fila">
+      <div class="fila__titulo"><h2>Guías</h2><p>Para comprar, alquilar y vender con cabeza.</p></div>
+      <div class="entradas">
+        {guias.map((g) => (
+          <article class="entrada">
+            <Image src={g.data.foto} alt={g.data.fotoAlt} widths={[400, 700]} sizes="(min-width: 960px) 25vw, 100vw" />
+            <div class="entrada__cuerpo"><p class="entrada__meta">{g.data.categoria} · {g.data.minutos} min</p><h3><a href={`/guias/${g.id}/`}>{g.data.titulo}</a></h3><p>{g.data.resumen}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion"><div class="contenedor fila"><div class="fila__titulo"><h2>Preguntas</h2></div><Preguntas titulo="Preguntas frecuentes" /></div></section>
+</Base>

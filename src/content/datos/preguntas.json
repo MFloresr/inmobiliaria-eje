@@ -1,0 +1,44 @@
+[
+ {
+  "id": "q1",
+  "tema": "comprar",
+  "pregunta": "¿Qué gastos hay además del precio?",
+  "respuesta": "En Catalunya, al comprar una vivienda de segunda mano hay que sumar entre un 10 y un 12 % del precio en impuestos (ITP o IVA y AJD), notaría, registro y gestoría. En obra nueva el IVA es del 10 %. Lo calculamos en la calculadora de hipoteca."
+ },
+ {
+  "id": "q2",
+  "tema": "comprar",
+  "pregunta": "¿Cuánto dinero necesito tener ahorrado?",
+  "respuesta": "Normalmente los bancos financian hasta el 80 % del precio de tasación, así que necesitas el 20 % más los gastos (otro 10-12 %): alrededor del 30 % del precio de la vivienda."
+ },
+ {
+  "id": "q3",
+  "tema": "alquilar",
+  "pregunta": "¿Qué piden para alquilar?",
+  "respuesta": "Contrato de trabajo o justificante de ingresos y las últimas nóminas. El propietario suele pedir una fianza de un mes (obligatoria por ley) y, a veces, garantías adicionales."
+ },
+ {
+  "id": "q4",
+  "tema": "alquilar",
+  "pregunta": "¿Cuánto dura el contrato de alquiler?",
+  "respuesta": "El mínimo legal es de cinco años (siete si el propietario es una empresa), aunque el inquilino puede marcharse antes avisando con treinta días."
+ },
+ {
+  "id": "q5",
+  "tema": "vender",
+  "pregunta": "¿Cuánto cobráis por vender?",
+  "respuesta": "Cobramos solo si vendemos, un porcentaje del precio final que acordamos por escrito antes de empezar. [El cliente fija sus honorarios.]"
+ },
+ {
+  "id": "q6",
+  "tema": "vender",
+  "pregunta": "¿Necesito el certificado energético?",
+  "respuesta": "Sí. Es obligatorio para vender o alquilar, y debe aparecer la letra (de la A a la G) en cualquier anuncio. Si no lo tienes, te ayudamos a pedirlo."
+ },
+ {
+  "id": "q7",
+  "tema": "hipoteca",
+  "pregunta": "¿Fija o variable?",
+  "respuesta": "Una hipoteca fija te da una cuota constante y seguridad; la variable suele empezar más barata pero puede subir. Con tipos altos, muchas personas prefieren la fija; con tipos bajos, la variable puede compensar."
+ }
+]

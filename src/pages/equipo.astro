@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEquipo } from '../lib/contenido';
+
+const equipo = await getEquipo();
+---
+
+<Base titulo="El equipo" descripcion="Agentes inmobiliarios y asesor financiero de Eje.">
+  <div class="contenedor cabecera-pagina">
+    <h1>Equipo</h1>
+    <p>Cuatro profesionales que conocen la zona calle a calle.</p>
+  </div>
+  <section class="seccion">
+    <div class="contenedor" style="padding-block:28px 60px">
+      <div class="equipo">
+        {equipo.map((p) => (
+          <article class="persona">
+            <span class="persona__iniciales" aria-hidden="true">{p.data.nombre.split(' ').map((x) => x[0]).join('')}</span>
+            <h2>{p.data.nombre}</h2>
+            <p class="cargo">{p.data.cargo}</p>
+            <p>{p.data.texto}</p>
+            <p class="letra-pequena" style="margin:0"><strong>Zonas:</strong> {p.data.zonas}<br />{p.data.colegiado}</p>
+          </article>
+        ))}
+      </div>
+      <p class="letra-pequena" style="margin-top:18px">Los nombres, perfiles y números de colegiado son de ejemplo. En Catalunya los agentes deben estar inscritos en el registro oficial (AICAT).</p>
+    </div>
+  </section>
+</Base>

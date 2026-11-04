@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import Preguntas from '../components/Preguntas.astro';
+---
+
+<Base titulo="Calculadora de hipoteca" descripcion="Calcula la cuota mensual, el dinero que necesitas ahorrar y si la cuota cabe en tus ingresos.">
+  <div class="contenedor cabecera-pagina">
+    <h1>Hipoteca</h1>
+    <p>Mueve los controles y mira cuánto pagarías al mes y cuánto necesitas tener ahorrado.</p>
+  </div>
+
+  <section class="seccion">
+    <div class="contenedor" style="padding-block:32px 64px">
+      <form class="calc" id="calc" aria-label="Calculadora de hipoteca">
+        <div class="calc__campos">
+          <div><label for="h-precio">Precio de la vivienda <output id="o-precio" for="h-precio"></output></label><input id="h-precio" type="range" min="80000" max="1000000" step="5000" value="300000" /></div>
+          <div><label for="h-entrada">Entrada <output id="o-entrada" for="h-entrada"></output></label><input id="h-entrada" type="range" min="10" max="50" step="1" value="20" /><p class="ayuda">Los bancos suelen financiar hasta el 80 %.</p></div>
+          <div><label for="h-plazo">Plazo <output id="o-plazo" for="h-plazo"></output></label><input id="h-plazo" type="range" min="10" max="35" step="1" value="30" /></div>
+          <div><label for="h-interes">Interés anual <output id="o-interes" for="h-interes"></output></label><input id="h-interes" type="range" min="1" max="6" step="0.05" value="3" /></div>
+          <div><label for="h-ingresos">Ingresos netos al mes del hogar <output id="o-ingresos" for="h-ingresos"></output></label><input id="h-ingresos" type="range" min="800" max="8000" step="50" value="3200" /></div>
+          <label class="casilla" style="display:flex;gap:12px;font-weight:500"><input type="checkbox" id="h-gastos" checked style="width:24px;height:24px;accent-color:var(--azul)" /><span>Incluir impuestos y gastos de compra (≈ 12 % del precio)</span></label>
+        </div>
+        <div class="calc__salida" aria-live="polite">
+          <p style="margin:0;font-weight:700">Cuota mensual</p>
+          <p class="gran num" id="s-cuota">0 €</p>
+          <p id="s-veredicto" style="font-weight:700;margin:0"></p>
+          <dl>
+            <div><dt>Importe de la hipoteca</dt><dd id="s-hipoteca"></dd></div>
+            <div><dt>Ahorro necesario</dt><dd id="s-ahorro"></dd></div>
+            <div><dt>Intereses totales</dt><dd id="s-intereses"></dd></div>
+            <div><dt>Total que pagarás al banco</dt><dd id="s-total"></dd></div>
+            <div><dt>Cuota sobre tus ingresos</dt><dd id="s-ratio"></dd></div>
+          </dl>
+          <p style="font-size:0.88rem;color:#e1e5ff;margin:12px 0 0">Cálculo orientativo con cuota constante (sistema francés). No es una oferta ni un compromiso de financiación.</p>
+          <p style="margin:12px 0 0"><a class="btn btn--sin-flecha" style="background:#fff;color:var(--azul);border-color:#fff" href="/contacto/">Hablar con un asesor</a></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="seccion"><div class="contenedor fila"><div class="fila__titulo"><h2>Sobre la hipoteca</h2></div><Preguntas tema="hipoteca" titulo="Dudas habituales" /></div></section>
+</Base>
+
+<script>
+  const $ = (id: string) => document.getElementById(id) as HTMLInputElement;
+  const eur = (n: number) => `${new Intl.NumberFormat('es-ES', { useGrouping: 'always' }).format(Math.round(n))} €`;
+  const q = new URLSearchParams(location.search).get('precio');
+  if (q && Number(q) >= 80000 && Number(q) <= 1000000) $('h-precio').value = String(Math.round(Number(q) / 5000) * 5000);
+
+  function calc() {
+    const precio = Number($('h-precio').value), ent = Number($('h-entrada').value), anos = Number($('h-plazo').value), tin = Number($('h-interes').value), ing = Number($('h-ingresos').value);
+    const gastos = $('h-gastos').checked ? precio * 0.12 : 0;
+    const hip = precio * (1 - ent / 100);
+    const r = tin / 100 / 12, n = anos * 12;
+    const cuota = r === 0 ? hip / n : (hip * r) / (1 - Math.pow(1 + r, -n));
+    const total = cuota * n;
+    const ratio = (cuota / ing) * 100;
+    $('o-precio').textContent = eur(precio); $('o-entrada').textContent = `${ent} % · ${eur(precio * ent / 100)}`;
+    $('o-plazo').textContent = `${anos} años`; $('o-interes').textContent = `${tin.toFixed(2).replace('.', ',')} %`; $('o-ingresos').textContent = eur(ing);
+    $('s-cuota').innerHTML = `${new Intl.NumberFormat('es-ES', { useGrouping: 'always' }).format(Math.round(cuota))} <small>€ al mes</small>`;
+    $('s-hipoteca').textContent = eur(hip);
+    $('s-ahorro').textContent = eur(precio * ent / 100 + gastos);
+    $('s-intereses').textContent = eur(total - hip);
+    $('s-total').textContent = eur(total);
+    $('s-ratio').textContent = `${ratio.toFixed(0)} %`;
+    $('s-veredicto').textContent = ratio <= 30 ? 'Cómodo: la cuota queda por debajo del 30 % de tus ingresos.' : ratio <= 35 ? 'Ajustado: entre el 30 y el 35 %, el límite habitual de los bancos.' : 'Alto: por encima del 35 %, es difícil que el banco la apruebe.';
+    if (ent > 20) $('s-veredicto').textContent += ' Con más del 20 % de entrada tendrás más margen de negociación.';
+  }
+  document.getElementById('calc')!.addEventListener('input', calc);
+  calc();
+</script>

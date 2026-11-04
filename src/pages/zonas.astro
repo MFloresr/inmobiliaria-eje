@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { getZonas } from '../lib/contenido';
+import { num } from '../lib/util';
+
+const zonas = await getZonas();
+---
+
+<Base titulo="Zonas: precios por metro cuadrado" descripcion="Compara Eixample, Gràcia, Sants, Poblenou y el Vallès: precio de venta y alquiler por metro cuadrado, transporte y para quién es cada una.">
+  <div class="contenedor cabecera-pagina">
+    <h1>Zonas</h1>
+    <p>Precio medio por metro cuadrado, transporte y para quién es cada zona.</p>
+  </div>
+  <section class="seccion">
+    <div class="contenedor" style="padding-block:20px 60px">
+      <div class="zonas">
+        {zonas.map((z) => (
+          <article class="zona">
+            <div><h2>{z.data.nombre}</h2><p class="gris" style="margin-top:6px">{z.data.transporte}</p></div>
+            <div><p>{z.data.resumen}</p><p class="gris" style="margin-top:6px"><strong>Para:</strong> {z.data.paraQuien}</p></div>
+            <p class="precio num">{num(z.data.precioM2Venta)} €<small>€/m² en venta</small></p>
+            <p class="precio num">{z.data.precioM2Alquiler} €<small>€/m² al mes</small></p>
+          </article>
+        ))}
+      </div>
+      <p class="letra-pequena" style="margin-top:22px;max-width:70ch">Precios medios de ejemplo. Varían mucho según la calle, la altura y el estado de la finca.</p>
+      <p style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="/buscar/">Buscar en estas zonas</a><a class="btn btn--linea" href="/tasacion/">Cuánto vale mi vivienda</a></p>
+    </div>
+  </section>
+</Base>

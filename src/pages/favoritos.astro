@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Prop from '../components/Prop.astro';
+import { getPropiedades, getZonas } from '../lib/contenido';
+
+const props = await getPropiedades();
+const zonas = await getZonas();
+const nombreZona = (id: string) => zonas.find((z) => z.id === id)?.data.nombre ?? id;
+---
+
+<Base titulo="Mis favoritos" descripcion="Las viviendas que has guardado en este navegador." noindex>
+  <div class="contenedor cabecera-pagina">
+    <h1>Favoritos</h1>
+    <p>Las viviendas que has guardado. Se quedan solo en este navegador: no creamos ninguna cuenta.</p>
+  </div>
+  <section class="seccion">
+    <div class="contenedor" style="padding-block:28px 64px">
+      <h2 class="solo-lectores">Viviendas guardadas</h2>
+      <div class="rejilla" id="lista-fav">
+        {props.map((p) => <Prop p={p} zona={nombreZona(p.data.zona)} />)}
+      </div>
+      <div class="vacio" id="vacio-fav" hidden>
+        <h2 style="font-size:2rem">Aún no has guardado ninguna</h2>
+        <p>Pulsa el corazón en cualquier vivienda para guardarla aquí.</p>
+        <a class="btn" href="/buscar/">Buscar viviendas</a>
+      </div>
+      <p style="margin-top:20px"><a class="btn btn--linea btn--sin-flecha" id="comparar" href="/contacto/" hidden>Pedir visita de las guardadas</a></p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  function leer(): string[] { try { return JSON.parse(localStorage.getItem('eje:favoritos') || '[]'); } catch { return []; } }
+  function pintar() {
+    const f = leer();
+    let n = 0;
+    document.querySelectorAll<HTMLElement>('#lista-fav .prop').forEach((el) => { const ok = f.includes(el.dataset.id!); el.hidden = !ok; if (ok) n++; });
+    document.getElementById('vacio-fav')!.hidden = n > 0;
+    document.getElementById('lista-fav')!.hidden = n === 0;
+    document.getElementById('comparar')!.hidden = n === 0;
+  }
+  pintar();
+  window.addEventListener('eje:favoritos', pintar);
+  window.addEventListener('storage', pintar);
+</script>

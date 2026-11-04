@@ -1,0 +1,20 @@
+[
+ {
+  "id": "o1",
+  "texto": "Nos dijeron el precio real desde el principio y vendimos en seis semanas. Sin sorpresas.",
+  "nombre": "Anna y Pere",
+  "operacion": "Venta, Eixample"
+ },
+ {
+  "id": "o2",
+  "texto": "La calculadora de hipoteca nos ayudó a saber qué podíamos pagar antes de visitar nada.",
+  "nombre": "Jordi",
+  "operacion": "Compra, Sants"
+ },
+ {
+  "id": "o3",
+  "texto": "Alquilé en una semana. Oriol me enseñó cuatro pisos el mismo día y encontré el mío.",
+  "nombre": "Lucía",
+  "operacion": "Alquiler, Gràcia"
+ }
+]

@@ -1,0 +1,393 @@
+[
+ {
+  "id": "eixample-reformado",
+  "titulo": "Piso reformado en el Eixample",
+  "operacion": "venta",
+  "tipo": "piso",
+  "zona": "eixample",
+  "calle": "Carrer d'Aragó",
+  "precio": 389000,
+  "metros": 92,
+  "habitaciones": 3,
+  "banos": 2,
+  "planta": "3.ª con ascensor",
+  "ano": 1932,
+  "energia": "D",
+  "destacada": true,
+  "extras": [
+   "Ascensor",
+   "Balcón",
+   "Suelos hidráulicos",
+   "Aire acondicionado"
+  ],
+  "referencia": "EJE-0412",
+  "resumen": "Tres habitaciones, dos baños y techos altos en una finca de 1932, reformada por dentro.",
+  "descripcion": [
+   "Piso de 92 m² en un edificio de principios de siglo, con los suelos hidráulicos originales restaurados y una reforma completa de cocina y baños.",
+   "El salón da a un balcón que mira a la calle, con mucha luz por la mañana. La cocina está abierta al comedor.",
+   "A cinco minutos andando hay metro, supermercados y colegios."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/fachada-paral-lel.jpg",
+    "alt": "Fachada de un edificio modernista de esquina en Barcelona, con balcones y árboles en la calle"
+   },
+   {
+    "src": "../../assets/fotos/salon-vistas.jpg",
+    "alt": "Salón con sofá de cuero, mesa de centro y ventanal con cortinas oscuras"
+   },
+   {
+    "src": "../../assets/fotos/salon-cocina.jpg",
+    "alt": "Cocina con frente de listones de madera, encimera clara y puerta blanca"
+   },
+   {
+    "src": "../../assets/fotos/comedor.jpg",
+    "alt": "Comedor con mesa de madera y sillas verdes junto a un frente de madera"
+   }
+  ]
+ },
+ {
+  "id": "atico-claraboyas-gracia",
+  "titulo": "Ático con claraboyas en Gràcia",
+  "operacion": "venta",
+  "tipo": "atico",
+  "zona": "gracia",
+  "calle": "Carrer de Verdi",
+  "precio": 295000,
+  "metros": 68,
+  "habitaciones": 2,
+  "banos": 1,
+  "planta": "5.ª sin ascensor",
+  "ano": 1958,
+  "energia": "C",
+  "destacada": true,
+  "extras": [
+   "Claraboyas",
+   "Muy luminoso",
+   "Reformado",
+   "Calefacción"
+  ],
+  "referencia": "EJE-0398",
+  "resumen": "Ático reformado de 68 m² con techos inclinados y ventanas en el tejado.",
+  "descripcion": [
+   "Un ático en la última planta de una finca de Gràcia, con vigas vistas y dos ventanas de tejado que llenan de luz el dormitorio.",
+   "Está reformado y listo para entrar a vivir. No tiene ascensor, y por eso el precio es más ajustado que el de otros de la zona."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/claraboya.jpg",
+    "alt": "Cama doble bajo una ventana de tejado con una planta y una lámpara de lectura"
+   },
+   {
+    "src": "../../assets/fotos/dormitorio-loft.jpg",
+    "alt": "Dormitorio en buhardilla con cama doble, claraboya y cuadros en la pared"
+   },
+   {
+    "src": "../../assets/fotos/comedor.jpg",
+    "alt": "Comedor con mesa de madera y sillas verdes junto a un frente de madera"
+   }
+  ]
+ },
+ {
+  "id": "piso-luminoso-sants",
+  "titulo": "Piso luminoso con balcón en Sants",
+  "operacion": "venta",
+  "tipo": "piso",
+  "zona": "sants",
+  "calle": "Carrer de Sants",
+  "precio": 245000,
+  "metros": 78,
+  "habitaciones": 3,
+  "banos": 1,
+  "planta": "6.ª con ascensor",
+  "ano": 1974,
+  "energia": "E",
+  "destacada": false,
+  "extras": [
+   "Ascensor",
+   "Balcón corrido",
+   "Exterior",
+   "Portero"
+  ],
+  "referencia": "EJE-0371",
+  "resumen": "Tres habitaciones, orientación sur y grandes ventanales en un sexto con ascensor.",
+  "descripcion": [
+   "Piso exterior de tres habitaciones con ventanales de suelo a techo en el salón, y un balcón corrido al que dan todas las estancias principales.",
+   "La cocina conserva su distribución original: una buena oportunidad para quien quiera reformar a su gusto."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/salon-plantas.jpg",
+    "alt": "Salón luminoso con grandes ventanales, estantería blanca y mesa con sillas de mimbre"
+   },
+   {
+    "src": "../../assets/fotos/fachada-paral-lel-2.jpg",
+    "alt": "Edificio alto de ladrillo con balcones corridos y plantas en Barcelona"
+   }
+  ]
+ },
+ {
+  "id": "casa-jardin-sabadell",
+  "titulo": "Casa con jardín en el Vallès",
+  "operacion": "venta",
+  "tipo": "casa",
+  "zona": "valles",
+  "calle": "Passeig de les Flors",
+  "precio": 465000,
+  "metros": 180,
+  "habitaciones": 4,
+  "banos": 3,
+  "planta": "Dos plantas",
+  "ano": 1961,
+  "energia": "F",
+  "destacada": true,
+  "extras": [
+   "Jardín de 220 m²",
+   "Garaje",
+   "Chimenea",
+   "Buhardilla"
+  ],
+  "referencia": "EJE-0420",
+  "resumen": "Casa de ladrillo con jardín, cuatro habitaciones y garaje, a diez minutos de la estación.",
+  "descripcion": [
+   "Casa independiente de dos plantas y buhardilla, con un jardín de 220 m² con setos y árboles frutales.",
+   "Necesita actualizar ventanas y calefacción, pero la estructura está en buen estado. Perfecta para una familia que quiera espacio."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/casa-jardin.jpg",
+    "alt": "Casa de ladrillo rojo con jardín, setos y un coche aparcado delante"
+   }
+  ]
+ },
+ {
+  "id": "estudio-poblenou",
+  "titulo": "Estudio moderno en el Poblenou",
+  "operacion": "alquiler",
+  "tipo": "estudio",
+  "zona": "poblenou",
+  "calle": "Carrer de Pallars",
+  "precio": 1050,
+  "metros": 38,
+  "habitaciones": 1,
+  "banos": 1,
+  "planta": "2.ª con ascensor",
+  "ano": 2018,
+  "energia": "B",
+  "destacada": false,
+  "extras": [
+   "Amueblado",
+   "Obra nueva",
+   "Aire acondicionado",
+   "Ascensor"
+  ],
+  "referencia": "EJE-0425",
+  "resumen": "Estudio amueblado de 38 m² en un edificio de 2018, con cocina equipada.",
+  "descripcion": [
+   "Estudio completamente amueblado, con cocina abierta de madera y encimera clara y un comedor para dos.",
+   "Contrato de un año, con opción a prórroga. Fianza de dos meses."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/salon-cocina.jpg",
+    "alt": "Cocina con frente de listones de madera, encimera clara y puerta blanca"
+   },
+   {
+    "src": "../../assets/fotos/comedor.jpg",
+    "alt": "Comedor con mesa de madera y sillas verdes junto a un frente de madera"
+   }
+  ]
+ },
+ {
+  "id": "piso-mirador-gracia",
+  "titulo": "Piso con mirador en Gràcia",
+  "operacion": "alquiler",
+  "tipo": "piso",
+  "zona": "gracia",
+  "calle": "Carrer de Torrent de l'Olla",
+  "precio": 1450,
+  "metros": 75,
+  "habitaciones": 2,
+  "banos": 1,
+  "planta": "1.ª sin ascensor",
+  "ano": 1905,
+  "energia": "E",
+  "destacada": true,
+  "extras": [
+   "Mirador modernista",
+   "Suelos hidráulicos",
+   "Techos de 3,4 m"
+  ],
+  "referencia": "EJE-0431",
+  "resumen": "Dos habitaciones en un primero con mirador modernista y techos de más de tres metros.",
+  "descripcion": [
+   "Un primer piso en una finca modernista, con un mirador de ladrillo y cerámica que hace de comedor.",
+   "Sin amueblar, con cocina equipada. Contrato mínimo de un año."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/balcon-bcn.jpg",
+    "alt": "Mirador de ladrillo rojo con ornamentos cerámicos en una fachada de Barcelona"
+   },
+   {
+    "src": "../../assets/fotos/salon-vistas.jpg",
+    "alt": "Salón con sofá de cuero, mesa de centro y ventanal con cortinas oscuras"
+   }
+  ]
+ },
+ {
+  "id": "atico-terraza-alquiler",
+  "titulo": "Ático luminoso con claraboya en Gràcia",
+  "operacion": "alquiler",
+  "tipo": "atico",
+  "zona": "gracia",
+  "calle": "Carrer de Torrijos",
+  "precio": 1800,
+  "metros": 90,
+  "habitaciones": 3,
+  "banos": 2,
+  "planta": "5.ª con ascensor",
+  "ano": 2005,
+  "energia": "C",
+  "destacada": false,
+  "extras": [
+   "Ascensor",
+   "Claraboya",
+   "Parking opcional",
+   "Calefacción"
+  ],
+  "referencia": "EJE-0433",
+  "resumen": "Ático de tres dormitorios con luz natural desde el tejado y ascensor.",
+  "descripcion": [
+   "Ático de tres dormitorios y dos baños con vigas vistas y ventanas en el tejado.",
+   "Disponible desde el próximo mes. Parking en el mismo edificio por un suplemento."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/dormitorio-loft.jpg",
+    "alt": "Dormitorio en buhardilla con cama doble, claraboya y cuadros en la pared"
+   },
+   {
+    "src": "../../assets/fotos/claraboya.jpg",
+    "alt": "Cama doble bajo una ventana de tejado con una planta y una lámpara de lectura"
+   }
+  ]
+ },
+ {
+  "id": "piso-sants-alquiler",
+  "titulo": "Piso exterior en Sants",
+  "operacion": "alquiler",
+  "tipo": "piso",
+  "zona": "sants",
+  "calle": "Carrer de Galileu",
+  "precio": 980,
+  "metros": 60,
+  "habitaciones": 2,
+  "banos": 1,
+  "planta": "4.ª con ascensor",
+  "ano": 1972,
+  "energia": "D",
+  "destacada": false,
+  "extras": [
+   "Ascensor",
+   "Exterior",
+   "Parcialmente amueblado"
+  ],
+  "referencia": "EJE-0436",
+  "resumen": "Dos habitaciones, exterior y a diez minutos andando del metro.",
+  "descripcion": [
+   "Piso de 60 m², exterior y muy luminoso, con grandes ventanales en el salón.",
+   "Se alquila parcialmente amueblado: cocina equipada y armarios empotrados."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/salon-plantas.jpg",
+    "alt": "Salón luminoso con grandes ventanales, estantería blanca y mesa con sillas de mimbre"
+   },
+   {
+    "src": "../../assets/fotos/fachada-paral-lel-2.jpg",
+    "alt": "Edificio alto de ladrillo con balcones corridos y plantas en Barcelona"
+   }
+  ]
+ },
+ {
+  "id": "casa-adosada-terrassa",
+  "titulo": "Casa adosada con terraza en el Vallès",
+  "operacion": "venta",
+  "tipo": "casa",
+  "zona": "valles",
+  "calle": "Carrer del Pi",
+  "precio": 340000,
+  "metros": 140,
+  "habitaciones": 4,
+  "banos": 2,
+  "planta": "Tres plantas",
+  "ano": 1990,
+  "energia": "D",
+  "destacada": false,
+  "extras": [
+   "Terraza",
+   "Garaje",
+   "Trastero",
+   "Piscina comunitaria"
+  ],
+  "referencia": "EJE-0440",
+  "resumen": "Adosada de 140 m² con garaje, terraza y piscina comunitaria.",
+  "descripcion": [
+   "Casa adosada de tres plantas en una urbanización tranquila, con garaje para dos coches y trastero.",
+   "La zona común incluye piscina y pista deportiva."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/casa-jardin.jpg",
+    "alt": "Casa de ladrillo rojo con jardín, setos y un coche aparcado delante"
+   },
+   {
+    "src": "../../assets/fotos/salon-vistas.jpg",
+    "alt": "Salón con sofá de cuero, mesa de centro y ventanal con cortinas oscuras"
+   }
+  ]
+ },
+ {
+  "id": "piso-eixample-alquiler",
+  "titulo": "Piso de diseño en el Eixample",
+  "operacion": "alquiler",
+  "tipo": "piso",
+  "zona": "eixample",
+  "calle": "Carrer de Provença",
+  "precio": 1650,
+  "metros": 85,
+  "habitaciones": 2,
+  "banos": 2,
+  "planta": "2.ª con ascensor",
+  "ano": 1928,
+  "energia": "D",
+  "destacada": false,
+  "extras": [
+   "Amueblado",
+   "Ascensor",
+   "Balcón",
+   "Cocina de madera"
+  ],
+  "referencia": "EJE-0444",
+  "resumen": "Dos habitaciones, dos baños y cocina de madera en una finca señorial.",
+  "descripcion": [
+   "Piso amueblado de diseño, con cocina de madera y encimera clara, y un salón con balcón a la calle.",
+   "Disponible de inmediato. Contrato de uno a cinco años."
+  ],
+  "fotos": [
+   {
+    "src": "../../assets/fotos/fachada-paral-lel.jpg",
+    "alt": "Fachada de un edificio modernista de esquina en Barcelona, con balcones y árboles en la calle"
+   },
+   {
+    "src": "../../assets/fotos/salon-cocina.jpg",
+    "alt": "Cocina con frente de listones de madera, encimera clara y puerta blanca"
+   },
+   {
+    "src": "../../assets/fotos/comedor.jpg",
+    "alt": "Comedor con mesa de madera y sillas verdes junto a un frente de madera"
+   }
+  ]
+ }
+]

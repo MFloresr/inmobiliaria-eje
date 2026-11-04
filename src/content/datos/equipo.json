@@ -1,0 +1,34 @@
+[
+ {
+  "id": "laura-vidal",
+  "nombre": "Laura Vidal",
+  "cargo": "Directora y agente de ventas",
+  "texto": "Lleva quince años vendiendo en el Eixample. Cree que una venta bien hecha empieza con un precio honesto.",
+  "zonas": "Eixample y Gràcia",
+  "colegiado": "API [n.º de ejemplo]"
+ },
+ {
+  "id": "oriol-pons",
+  "nombre": "Oriol Pons",
+  "cargo": "Agente de alquileres",
+  "texto": "Conoce cada escalera de Sants. Si un piso se alquila, suele ser porque Oriol lo ha enseñado.",
+  "zonas": "Sants y Poblenou",
+  "colegiado": "API [n.º de ejemplo]"
+ },
+ {
+  "id": "clara-mas",
+  "nombre": "Clara Mas",
+  "cargo": "Agente en el Vallès",
+  "texto": "Especialista en casas. Visita cada una dos veces antes de ponerla en la web.",
+  "zonas": "Vallès Occidental",
+  "colegiado": "API [n.º de ejemplo]"
+ },
+ {
+  "id": "marc-soler",
+  "nombre": "Marc Soler",
+  "cargo": "Asesor financiero",
+  "texto": "Compara hipotecas en seis bancos para que no tengas que hacerlo tú.",
+  "zonas": "Todas",
+  "colegiado": "Asesor hipotecario [n.º de ejemplo]"
+ }
+]

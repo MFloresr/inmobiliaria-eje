@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import Prop from '../components/Prop.astro';
+import { getPropiedades, getZonas } from '../lib/contenido';
+
+const props = await getPropiedades();
+const zonas = await getZonas();
+const nombreZona = (id: string) => zonas.find((z) => z.id === id)?.data.nombre ?? id;
+const datos = props.map((p) => ({ id: p.id, op: p.data.operacion, tipo: p.data.tipo, zona: p.data.zona, precio: p.data.precio, hab: p.data.habitaciones, m2: p.data.metros, dest: p.data.destacada }));
+---
+
+<Base titulo="Buscar vivienda en venta y alquiler" descripcion="Filtra por compra o alquiler, tipo, zona, precio y habitaciones. Guarda tus favoritas.">
+  <div class="contenedor cabecera-pagina">
+    <h1>Buscar</h1>
+    <p>Filtra y ordena. Los favoritos se guardan en este navegador.</p>
+  </div>
+
+  <section class="seccion" id="buscar" data-props={JSON.stringify(datos)}>
+    <div class="contenedor" style="padding-block:28px 64px">
+      <form class="filtros" id="filtros" aria-label="Filtros de búsqueda">
+        <div>
+          <fieldset><legend>Operación</legend>
+            <div class="seg"><label><input type="radio" name="op" value="venta" checked /><span>Comprar</span></label><label><input type="radio" name="op" value="alquiler" /><span>Alquilar</span></label></div>
+          </fieldset>
+        </div>
+        <div><label for="f-tipo">Tipo</label><select id="f-tipo" name="tipo"><option value="">Cualquiera</option><option value="piso">Piso</option><option value="atico">Ático</option><option value="casa">Casa</option><option value="estudio">Estudio</option></select></div>
+        <div><label for="f-zona">Zona</label><select id="f-zona" name="zona"><option value="">Todas</option>{zonas.map((z) => <option value={z.id}>{z.data.nombre}</option>)}</select></div>
+        <div><label for="f-hab">Habitaciones</label><select id="f-hab" name="hab"><option value="">Todas</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option><option value="4">4 o más</option></select></div>
+        <div><label for="f-precio">Precio máximo</label><select id="f-precio" name="precio"></select></div>
+      </form>
+
+      <div class="resultados-cab">
+        <p id="resultados" role="status" aria-live="polite"></p>
+        <div><label for="f-orden" style="font:700 0.82rem var(--f-texto);display:block">Ordenar por</label>
+          <select id="f-orden" name="orden"><option value="rel">Destacadas primero</option><option value="menor">Precio, de menor a mayor</option><option value="mayor">Precio, de mayor a menor</option><option value="m2">Superficie</option></select></div>
+      </div>
+
+      <h2 class="solo-lectores">Resultados</h2>
+      <div class="rejilla" id="lista">
+        {props.map((p) => <Prop p={p} zona={nombreZona(p.data.zona)} />)}
+      </div>
+      <div class="vacio" id="vacio" hidden>
+        <h2 style="font-size:2rem">Nada con esos filtros</h2>
+        <p>Prueba a subir el precio máximo o a quitar alguna condición. O cuéntanos qué buscas y te avisamos cuando entre algo.</p>
+        <a class="btn btn--sin-flecha" href="/contacto/">Pedir aviso</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  type P = { id: string; op: string; tipo: string; zona: string; precio: number; hab: number; m2: number; dest: boolean };
+  const raiz = document.getElementById('buscar')!;
+  const datos: P[] = JSON.parse(raiz.dataset.props || '[]');
+  const form = document.getElementById('filtros') as HTMLFormElement;
+  const orden = document.getElementById('f-orden') as HTMLSelectElement;
+  const precioSel = document.getElementById('f-precio') as HTMLSelectElement;
+  const lista = document.getElementById('lista')!;
+  const val = (n: string) => (form.elements.namedItem(n) as RadioNodeList).value;
+  const eur = (n: number) => `${new Intl.NumberFormat('es-ES', { useGrouping: 'always' }).format(n)} €`;
+  const OPCIONES = { venta: [0, 250000, 350000, 450000, 600000], alquiler: [0, 1000, 1400, 1800, 2500] };
+
+  function opcionesPrecio() {
+    const op = val('op') as 'venta' | 'alquiler';
+    const previo = precioSel.value;
+    precioSel.innerHTML = OPCIONES[op].map((v) => `<option value="${v || ''}">${v ? `Hasta ${eur(v)}` : 'Sin límite'}</option>`).join('');
+    if ([...precioSel.options].some((o) => o.value === previo)) precioSel.value = previo;
+  }
+
+  function filtrar() {
+    const op = val('op'), tipo = val('tipo'), zona = val('zona'), hab = Number(val('hab') || 0), max = Number(precioSel.value || 0);
+    const ok = datos.filter((p) => p.op === op && (!tipo || p.tipo === tipo) && (!zona || p.zona === zona) && p.hab >= hab && (!max || p.precio <= max));
+    const o = orden.value;
+    ok.sort((a, b) => o === 'menor' ? a.precio - b.precio : o === 'mayor' ? b.precio - a.precio : o === 'm2' ? b.m2 - a.m2 : Number(b.dest) - Number(a.dest) || a.id.localeCompare(b.id));
+    const ids = new Set(ok.map((p) => p.id));
+    const tarjetas = new Map([...lista.querySelectorAll<HTMLElement>('.prop')].map((el) => [el.dataset.id!, el]));
+    tarjetas.forEach((el, id) => { el.hidden = !ids.has(id); });
+    ok.forEach((p) => lista.appendChild(tarjetas.get(p.id)!));
+    document.getElementById('resultados')!.textContent = `${ok.length} ${ok.length === 1 ? 'vivienda' : 'viviendas'}`;
+    document.getElementById('vacio')!.hidden = ok.length > 0;
+    lista.hidden = ok.length === 0;
+    const q = new URLSearchParams({ op, ...(tipo && { tipo }), ...(zona && { zona }), ...(hab && { hab: String(hab) }), ...(max && { precio: String(max) }), ...(o !== 'rel' && { orden: o }) });
+    history.replaceState(null, '', `?${q}`);
+  }
+
+  // Estado inicial desde la dirección (?op=alquiler&zona=gracia)
+  const q = new URLSearchParams(location.search);
+  const op0 = q.get('op'); if (op0) { const r = form.querySelector<HTMLInputElement>(`input[name="op"][value="${op0}"]`); if (r) r.checked = true; }
+  opcionesPrecio();
+  (['tipo', 'zona', 'hab'] as const).forEach((n) => { const v = q.get(n); const el = form.elements.namedItem(n) as HTMLSelectElement; if (v && el && [...el.options].some((o) => o.value === v)) el.value = v; });
+  const pr = q.get('precio'); if (pr && [...precioSel.options].some((o) => o.value === pr)) precioSel.value = pr;
+  const or = q.get('orden'); if (or && [...orden.options].some((o) => o.value === or)) orden.value = or;
+  form.addEventListener('change', (e) => { if ((e.target as HTMLInputElement).name === 'op') opcionesPrecio(); filtrar(); });
+  orden.addEventListener('change', filtrar);
+  filtrar();
+</script>
